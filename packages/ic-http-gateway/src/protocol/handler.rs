@@ -46,7 +46,7 @@ pub async fn process_request(
     request: CanisterRequest,
     canister_id: Principal,
     allow_skip_verification: bool,
-) -> HttpGatewayResult<HttpGatewayResponse<'_>> {
+) -> HttpGatewayResult<HttpGatewayResponse> {
     let http_request = convert_request(request)?;
 
     let canister = HttpRequestCanister::create(agent, canister_id);
@@ -246,7 +246,7 @@ pub async fn process_request(
     })
 }
 
-fn handle_agent_error<'a>(error: AgentError) -> HttpGatewayResult<CanisterResponse<'a>> {
+fn handle_agent_error<'a>(error: AgentError) -> HttpGatewayResult<CanisterResponse> {
     match error {
         // Turn all `DestinationInvalid`s into 404
         AgentError::CertifiedReject(RejectResponse {

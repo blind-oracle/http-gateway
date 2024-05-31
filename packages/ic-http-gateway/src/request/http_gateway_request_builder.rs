@@ -37,7 +37,7 @@ impl<'a> HttpGatewayRequestBuilder<'a> {
         self
     }
 
-    pub async fn send(self) -> HttpGatewayResult<HttpGatewayResponse<'a>> {
+    pub async fn send(self) -> HttpGatewayResult<HttpGatewayResponse> {
         process_request(
             self.args.agent,
             self.args.request_args.canister_request,

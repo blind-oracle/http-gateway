@@ -23,7 +23,7 @@ pub type AgentResponseAny = AgentResponse<Token, HttpRequestStreamingCallbackAny
 pub async fn get_body_and_streaming_body<'a, 'b>(
     agent: &'a Agent,
     response: &'b AgentResponseAny,
-) -> Result<HttpGatewayResponseBody<'a>, AgentError> {
+) -> Result<HttpGatewayResponseBody, AgentError> {
     // if we already have the full body, we can return it early
     let Some(StreamingStrategy::Callback(callback_strategy)) = response.streaming_strategy.clone()
     else {
@@ -71,12 +71,12 @@ pub async fn get_body_and_streaming_body<'a, 'b>(
     Ok(HttpGatewayResponseBody::Bytes(streamed_body))
 }
 
-fn create_body_stream<'a>(
+fn create_body_stream(
     agent: Agent,
     callback: HttpRequestStreamingCallbackAny,
     token: Option<Token>,
     initial_body: Vec<u8>,
-) -> ResponseBodyStream<'a> {
+) -> ResponseBodyStream {
     let chunks_stream =
         create_stream(agent, callback, token).map(|chunk| chunk.map(|(body, _)| body));
 
